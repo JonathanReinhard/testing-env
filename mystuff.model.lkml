@@ -114,7 +114,12 @@ explore: customers {
   from: users
   label: "Customer Data"
   persist_with:mystuff_orders_datagroup
-  fields: [ALL_FIELDS*,-customers.id,-customers.full_name,-customers.first_name,-customers.last_name,-customers.email]
+  fields: [ALL_FIELDS*,-customers.full_name,-customers.first_name,-customers.last_name,-customers.email]
+    join:  orders{
+    type: inner
+    sql_on: ${customers.id}=${orders.user_id};;
+    relationship: one_to_many
+  }
 }
 explore: users_nn {
   }
