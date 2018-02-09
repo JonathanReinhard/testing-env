@@ -34,6 +34,11 @@ view: users {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
+    link: {
+      label: "{{ value }}"
+      url: "http://www.google.com/search?q={{ value }}"
+      icon_url: "http://google.com/favicon.ico"
+    }
   }
 
   dimension_group: created {
