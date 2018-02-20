@@ -127,7 +127,7 @@ explore: users_nn {
 explore: customer_facts {}
 
 view: customer_facts {
- derived_table: {
+ derived_table:{
    sql:
   SELECT users.id AS user_id,
        average_orders_per_month,
@@ -147,6 +147,8 @@ LEFT JOIN
 RIGHT JOIN orders ON users.id=orders.user_id
 GROUP BY 1, 2
   ;;
+  persist_for: "24 hours"
+  indexes: ["user_id"]
  }
 
 dimension: user_id {
