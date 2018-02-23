@@ -80,6 +80,11 @@ explore: orders {
     sql_on: ${order_items.order_id}=${orders.id} ;;
     relationship: one_to_one
   }
+  join: customer_facts {
+    type: left_outer
+    sql_on: ${customer_facts.user_id}=${orders.user_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: products {
@@ -91,6 +96,16 @@ explore: products {
   join: order_items {
     type: left_outer
     sql_on: ${order_items.inventory_item_id}=${inventory_items.id} ;;
+    relationship: one_to_one
+  }
+  join: orders {
+    type: left_outer
+    sql_on: ${order_items.order_id}=${orders.id} ;;
+    relationship: one_to_one
+  }
+  join: customer_facts {
+    type: left_outer
+    sql_on: ${customer_facts.user_id}=${orders.user_id} ;;
     relationship: one_to_one
   }
 
@@ -124,8 +139,6 @@ explore: customers {
 explore: users_nn {
   }
 
-explore: customer_facts {}
-
 view: customer_facts {
  derived_table:{
    sql:
@@ -147,12 +160,29 @@ LEFT JOIN
 RIGHT JOIN orders ON users.id=orders.user_id
 GROUP BY 1, 2
   ;;
-  persist_for: "24 hours"
+  sql_trigger_value: SELECT FLOOR((UNIX_TIMESTAMP(NOW()) - 60*60*18)/(60*60*24)) ;;
   indexes: ["user_id"]
  }
 
-dimension: user_id {
+  dimension: user_id {
   label: "User ID"
   sql: ${TABLE}.user_id ;;
-}
+  }
+
+  dimension: first_order_date {
+    type: date_time
+  }
+
+  dimension: last_order_date {
+    type: date_time
+  }
+
+  measure: days_since_first_purchase {
+    sql: ${TABLE}.days_since_first_purchase ;;
+  }
+
+  measure: total_number_of_orders {
+    type: count
+  }
+
 }
