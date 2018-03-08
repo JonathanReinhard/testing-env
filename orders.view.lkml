@@ -15,6 +15,7 @@ view: orders {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
@@ -46,5 +47,14 @@ view: orders {
     type: sum
     sql: order_items.sale_price-inventory_items.cost ;;
     value_format_name: usd
+  }
+  dimension: last_3_month {
+    type: number
+    sql: CASE
+    WHEN ${created_date} IS NOT NULL AND DATEDIFF(NOW(), ${created_date} ) <=21
+    THEN DATEDIFF(NOW(), ${created_date} )
+    ELSE NULL
+    END
+    ;;
   }
 }
