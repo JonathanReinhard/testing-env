@@ -1,13 +1,6 @@
-- dashboard: mystuff__public
+- dashboard: mystuff__public2
   title: MyStuff - public
   layout: newspaper
-  embed_style:
-    background_color: "#da4ab6"
-    show_title: false
-    title_color: "#228ab1"
-    show_filters_bar: false
-    tile_text_color: "#0e2027"
-    text_tile_text_color: ''
   elements:
   - title: Total_Sale_MyStuff_last_3_months
     name: Total_Sale_MyStuff_last_3_months

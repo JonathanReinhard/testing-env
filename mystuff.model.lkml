@@ -18,6 +18,7 @@ datagroup: mystuff_orders_datagroup {
   max_cache_age: "4 hours"
 }
 
+explore: pdt_test {}
 explore: events {
   join: users {
     type: left_outer
@@ -122,7 +123,11 @@ explore: user_data {
 }
 
 explore: users {
+}
 
+explore: user_michael {
+  view_name: users
+  sql_always_where: ${users.first_name}= "Michael" ;;
 }
 
 explore: customers {

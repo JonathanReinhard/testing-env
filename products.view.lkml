@@ -28,6 +28,7 @@ view: products {
     drill_fields: [item_name,id,brand,order_items.sale_price,inventory_items.cost]
   }
 
+
   dimension: rank {
     type: number
     sql: ${TABLE}.rank ;;
@@ -57,4 +58,12 @@ view: products {
     sql: ${retail_price} ;;
     value_format_name: usd
   }
+
+
+  ## Percentage of total, independent of filters
+  measure: fake_pot {
+    type: number
+    sql: ${total_retail_price} / (SELECT SUM(retail_price) FROM  demo_db.products) ;;
+  }
+
 }

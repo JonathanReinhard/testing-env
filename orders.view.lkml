@@ -14,11 +14,23 @@ view: orders {
       time,
       date,
       week,
+      day_of_week,
       month,
       month_name,
       quarter,
       year
     ]
+    sql: ${TABLE}.created_at ;;
+  }
+
+measure: latest_order {
+  type: date
+  sql: MAX(${created_raw}) ;;
+  convert_tz: no
+  }
+
+  dimension: year {
+    type: string
     sql: ${TABLE}.created_at ;;
   }
 
@@ -42,6 +54,7 @@ view: orders {
     sql: ${count} ;;
     drill_fields: [order_items.count,user.gender,user.age_tier]
   }
+
 
   measure: sales_cost_calculation{
     type: sum

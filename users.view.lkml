@@ -65,6 +65,17 @@ view: users {
     sql: ${TABLE}.first_name ;;
   }
 
+  dimension: no_michael {
+    sql: CASE
+    WHEN ${first_name} = 'Michael' THEN Null
+    WHEN ${first_name} <> 'Michael' THEN ${first_name}
+    END;;
+  }
+
+dimension: toto {
+  sql: (${first_name} FROM (SELECT ${first_name} FROM demob_db.users WHERE ${first_name} NOT IN ('Michael'))) ;;
+}
+
   dimension: gender {
     type: string
     sql: ${TABLE}.gender ;;
@@ -77,7 +88,14 @@ view: users {
 
   dimension: full_name {
     type: string
-    sql: CONCAT(${first_name},' ',${last_name}) ;;
+    sql: CONCAT(${first_name},' ',${last_name}) DESC ;;
+  }
+  dimension: full_name_test {
+    type:  string
+    sql: CASE
+    WHEN ${first_name} = 'Zachary' THEN ${first_name}
+    ELSE CONCAT(${first_name},' ',${last_name})
+    END;;
   }
 
   dimension: state {
@@ -110,5 +128,8 @@ view: users {
       orders.count,
       user_data.count
     ]
+  }
+  set: setty {
+    fields: [user.*]
   }
 }
