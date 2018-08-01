@@ -26,4 +26,10 @@ view: users_nn {
     type: count
     drill_fields: [id, first_name, last_name]
   }
+
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
+  }
+
 }

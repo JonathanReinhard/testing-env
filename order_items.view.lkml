@@ -55,6 +55,7 @@ view: order_items {
     value_format_name: usd
     drill_fields: [sales_details*]
   }
+
   measure: most_expensive_item {
     type: max
     sql: ${sale_price} ;;
@@ -78,6 +79,8 @@ view: order_items {
       value: "28 days"
     }
   }
+
+
   set: sales_details {
     fields: [products.item_name,sale_price,count]
   }

@@ -66,4 +66,11 @@ view: products {
     sql: ${total_retail_price} / (SELECT SUM(retail_price) FROM  demo_db.products) ;;
   }
 
+  dimension: country {
+    type: string
+    label: "Country"
+    sql: ${TABLE}.COUNTRY ;;
+  }
+
+
 }

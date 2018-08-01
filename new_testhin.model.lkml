@@ -1,6 +1,6 @@
 connection: "thelook"
 
-include: "users*.view.lkml"         # include all views in this project
+include: "*.view.lkml"         # include all views in this project
 #include: "*.dashboard.lookml"  # include all dashboards in this project
 
 # # Select the views that should be a part of this model,
@@ -18,3 +18,5 @@ include: "users*.view.lkml"         # include all views in this project
 #   }
 # }
 explore: users {}
+
+explore: customer_facts {}

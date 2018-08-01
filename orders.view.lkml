@@ -12,6 +12,7 @@ view: orders {
     timeframes: [
       raw,
       time,
+      hour,
       date,
       week,
       day_of_week,
@@ -54,6 +55,7 @@ measure: latest_order {
     sql: ${count} ;;
     drill_fields: [order_items.count,user.gender,user.age_tier]
   }
+
 
 
   measure: sales_cost_calculation{
