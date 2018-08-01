@@ -19,4 +19,4 @@ include: "*.view.lkml"         # include all views in this project
 # }
 explore: users {}
 
-explore: customer_facts {}
+#explore: customer_facts {}
