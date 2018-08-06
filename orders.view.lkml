@@ -24,6 +24,12 @@ view: orders {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension: date_month {
+    datatype: datetime
+    type: date_month
+    sql: ${TABLE}.created_at ;;
+  }
+
 measure: latest_order {
   type: date
   sql: MAX(${created_raw}) ;;
