@@ -22,6 +22,7 @@ view: orders {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    drill_fields: [user_id]
   }
 
   dimension: date_month {
@@ -55,6 +56,7 @@ measure: latest_order {
   measure: count {
     type: count
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
+    link: {label: "Explore Top 20 Results by Sale Price" url: "{{ link }}&sorts=order_items.sale_price+desc&limit=20" }
   }
   measure: percentage_of_total_orders{
     type: percent_of_total
@@ -62,7 +64,13 @@ measure: latest_order {
     drill_fields: [order_items.count,user.gender,user.age_tier]
   }
 
-
+  measure: count_last_28_days {
+    type:  count
+    filters: {
+      field: created_date
+      value: "last 28 days"
+    }
+  }
 
   measure: sales_cost_calculation{
     type: sum

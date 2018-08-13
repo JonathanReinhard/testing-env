@@ -1,6 +1,18 @@
 view: products {
   sql_table_name: demo_db.products ;;
 
+  filter: brand_select {
+  suggest_dimension:brand
+  }
+
+  dimension: brand_comparitor {
+  sql: CASE
+      WHEN {% condition brand_select %} ${brand} {% endcondition %}
+        THEN ${brand}
+      ELSE 'Rest of Population'
+    END;;
+  }
+
   dimension: id {
     primary_key: yes
     type: number
@@ -48,6 +60,15 @@ view: products {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
   }
+
+ dimension: brand_comparitor2{
+    sql:
+      CASE
+        WHEN {% condition brand_select %} ${brand} {% endcondition %} AND ${num.n} = 1
+          THEN ${brand}
+        ELSE 'Total Of Population'
+      END;;
+      }
   measure: average_retail_price {
     type: average
     sql: ${retail_price} ;;

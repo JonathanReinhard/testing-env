@@ -38,8 +38,12 @@ explore: inventory_items {
     relationship: many_to_one
     sql_on: ${inventory_items.id} = ${order_items.inventory_item_id} ;;
   }
-}
+  join: num {
+    type: cross
+    relationship: one_to_many
+  }
 
+}
 explore: order_items {
   label: "Order Items"
   join: inventory_items {
@@ -64,6 +68,11 @@ explore: order_items {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
+  }
+
+  join: num {
+    type: cross
+    relationship: one_to_many
   }
 }
 
@@ -108,6 +117,14 @@ explore: products {
     type: left_outer
     sql_on: ${customer_facts.user_id}=${orders.user_id} ;;
     relationship: one_to_one
+  }
+  join: num {
+    type: cross
+    relationship: one_to_many
+  }
+  join: products_total {
+    sql_on: ${products.id}=${products_total.id} ;;
+    relationship: one_to_many
   }
 
 }

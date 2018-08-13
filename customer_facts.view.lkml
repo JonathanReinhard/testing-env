@@ -4,6 +4,7 @@ view: customer_facts {
       SELECT users.id AS user_id,
            average_orders_per_month,
            COUNT(orders.user_id) AS total_number_of_orders,
+          orders.created_at AS orders_created_at,
            MIN(DATE(orders.created_at)) AS first_order_date,
            MAX(DATE(orders.created_at)) AS last_order_date,
            DATEDIFF(NOW(),MIN(DATE(orders.created_at))) AS days_since_first_purchase,
@@ -33,6 +34,11 @@ view: customer_facts {
 
   dimension: last_order_date {
     type: date_time
+  }
+
+  dimension: orders_created_at {
+    type: date_time
+    sql: ${TABLE}.orders_created_at ;;
   }
 
   measure: days_since_first_purchase {
