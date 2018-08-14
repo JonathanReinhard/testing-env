@@ -41,11 +41,15 @@ view: customer_facts {
     sql: ${TABLE}.orders_created_at ;;
   }
 
+  dimension: total_number_of_orders {
+    sql: ${TABLE}.total_number_of_orders ;;
+  }
+
   measure: days_since_first_purchase {
     sql: ${TABLE}.days_since_first_purchase ;;
   }
 
-  measure: total_number_of_orders {
+  measure: orders_count {
     type: count
   }
   }
