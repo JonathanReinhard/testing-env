@@ -25,6 +25,7 @@ view: orders {
     drill_fields: [user_id]
   }
 
+
   dimension: date_month {
     datatype: datetime
     type: date_month
