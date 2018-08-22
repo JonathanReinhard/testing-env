@@ -11,7 +11,7 @@
   elements:
   - title: Total_Sale_MyStuff_last_3_months
     name: Total_Sale_MyStuff_last_3_months
-    model: mystuff
+    model: mystuffs
     explore: order_items
     type: single_value
     fields:
@@ -36,7 +36,7 @@
     height: 3
   - name: Sales_distribution_US_MyStuff_last_3_month
     title: Sales_distribution_US_MyStuff_last_3_month
-    model: mystuff
+    model: mystuffs
     explore: orders
     type: looker_geo_choropleth
     fields:
@@ -83,7 +83,7 @@
     height: 6
   - name: Customers_by age_tier_in_Top3_states_MyStuff
     title: Customers_by age_tier_in_Top3_states_MyStuff
-    model: mystuff
+    model: mystuffs
     explore: users
     type: looker_donut_multiples
     fields:
@@ -165,7 +165,7 @@
     height: 6
   - name: New_Customers_by age_tier_in_Top3_states_MyStuff_last_3_month
     title: New_Customers_by age_tier_in_Top3_states_MyStuff_last_3_month
-    model: mystuff
+    model: mystuffs
     explore: users
     type: looker_donut_multiples
     fields:
@@ -249,7 +249,7 @@
     height: 6
   - name: New Customers_MyStuff_last_3_month
     title: New Customers_MyStuff_last_3_month
-    model: mystuff
+    model: mystuffs
     explore: users
     type: single_value
     fields:
@@ -333,7 +333,7 @@
     height: 3
   - name: New Customers_by_State_MyStuff_last_3_month
     title: New Customers_by_State_MyStuff_last_3_month
-    model: mystuff
+    model: mystuffs
     explore: users
     type: looker_geo_choropleth
     fields:
@@ -418,7 +418,7 @@
     height: 6
   - name: Total_#_of_customers_MyStuff
     title: Total_#_of_customers_MyStuff
-    model: mystuff
+    model: mystuffs
     explore: users
     type: single_value
     fields:
@@ -500,7 +500,7 @@
     height: 3
   - name: Total_Sale_MyStuff
     title: Total_Sale_MyStuff
-    model: mystuff
+    model: mystuffs
     explore: order_items
     type: single_value
     fields:
@@ -525,7 +525,7 @@
     height: 3
   - name: Customers_by_State_MyStuff
     title: Customers_by_State_MyStuff
-    model: mystuff
+    model: mystuffs
     explore: users
     type: looker_geo_choropleth
     fields:
@@ -608,7 +608,7 @@
     height: 6
   - name: Sales_distribution_US_MyStuff
     title: Sales_distribution_US_MyStuff
-    model: mystuff
+    model: mystuffs
     explore: orders
     type: looker_geo_choropleth
     fields:
@@ -653,7 +653,7 @@
     height: 6
   - name: add_a_unique_name_1525947452
     title: Untitled Visualization
-    model: mystuff
+    model: mystuffs
     explore: users
     type: looker_donut_multiples
     fields: [users.count, users.state, users.age_tier]
