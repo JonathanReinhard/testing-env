@@ -1,4 +1,5 @@
 view: customer_facts {
+  view_label: "Orders"
   derived_table:{
     sql:
       SELECT users.id AS user_id,
@@ -24,6 +25,7 @@ view: customer_facts {
     indexes: ["user_id"]
   }
   dimension: user_id {
+    group_label: "ID STUFF"
     label: "User ID"
     sql: ${TABLE}.user_id ;;
   }
@@ -48,4 +50,4 @@ view: customer_facts {
   measure: total_number_of_orders {
     type: count
   }
-  }
+}

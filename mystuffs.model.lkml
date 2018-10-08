@@ -2,21 +2,25 @@ connection: "thelook"
 
 # include all the views
 include: "*.view"
+include: "*explore"
 
 # include all the dashboards
 include: "*.dashboard"
 
 datagroup: mystuff_default_datagroup {
- sql_trigger: SELECT MAX(id) FROM etl_log;;
+  sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
 }
 
 persist_with: mystuff_default_datagroup
 
 datagroup: mystuff_orders_datagroup {
- sql_trigger: SELECT MAX(id) FROM etl_log;;
+  sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "4 hours"
 }
+
+
+explore: top10 {}
 
 explore: pdt_test {}
 explore: events {
@@ -95,13 +99,18 @@ explore: orders {
     sql_on: ${customer_facts.user_id}=${orders.user_id} ;;
     relationship: one_to_one
   }
+  join: sql_runner_query {
+    type: left_outer
+    sql_on: ${sql_runner_query.user_id}=${orders.user_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: products {
   join: inventory_items {
     type: left_outer
     sql_on: ${inventory_items.product_id}=${products.id};;
-  relationship:one_to_one
+    relationship:one_to_one
   }
   join: order_items {
     type: left_outer
@@ -152,14 +161,14 @@ explore: customers {
   label: "Customer Data"
   persist_with:mystuff_orders_datagroup
   fields: [ALL_FIELDS*,-customers.full_name,-customers.first_name,-customers.last_name,-customers.email]
-    join:  orders{
+  join:  orders{
     type: inner
     sql_on: ${customers.id}=${orders.user_id};;
     relationship: one_to_many
   }
 }
 explore: users_nn {
-  }
+}
 
 explore: customer_facts {
 }
