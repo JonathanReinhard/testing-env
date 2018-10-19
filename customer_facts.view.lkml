@@ -1,33 +1,30 @@
 view: customer_facts {
-  view_label: "Orders"
+  #view_label: "Orders"
   derived_table:{
     sql:
       SELECT users.id AS user_id,
-           average_orders_per_month,
-           COUNT(orders.user_id) AS total_number_of_orders,
-          orders.created_at AS orders_created_at,
-           MIN(DATE(orders.created_at)) AS first_order_date,
-           MAX(DATE(orders.created_at)) AS last_order_date,
-           DATEDIFF(NOW(),MIN(DATE(orders.created_at))) AS days_since_first_purchase,
-           IF(COUNT(orders.user_id)>1,"Yes","No") AS Repeat_customer
-    FROM users
-    LEFT JOIN
-      (SELECT users.id,
-              (COUNT(*) / COUNT(DISTINCT DATE_FORMAT(orders.created_at, "%M %Y"))) AS average_orders_per_month
-       FROM users
-       RIGHT JOIN orders ON users.id=orders.user_id
-       GROUP BY 1
-       ) AS avg_orders ON users.id = avg_orders.id
-    RIGHT JOIN orders ON users.id=orders.user_id
-    GROUP BY 1, 2
-      ;;
-    sql_trigger_value: SELECT FLOOR((UNIX_TIMESTAMP(NOW()) - 60*60*18)/(60*60*24)) ;;
-    indexes: ["user_id"]
+      users.first_name as first_name
+    FROM demo_db.users as users
+    WHERE created_at >= {% date_start Datefilter %} AND created_at < {% date_end Datefilter %}
+
+    ;;
+persist_for: "5 minutes"
   }
+
+  filter: Datefilter {
+    type: date
+    convert_tz: no
+  }
+
   dimension: user_id {
     group_label: "ID STUFF"
     label: "User ID"
     sql: ${TABLE}.user_id ;;
+  }
+  dimension: first_name {
+    type: string
+    sql: ${TABLE}.first_name ;;
+    full_suggestions: yes
   }
 
   dimension: first_order_date {

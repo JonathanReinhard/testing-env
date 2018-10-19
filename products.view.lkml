@@ -13,6 +13,7 @@ view: products {
     END;;
   }
 
+
   dimension: id {
     primary_key: yes
     type: number
@@ -21,7 +22,7 @@ view: products {
 
   dimension: brand {
     type: string
-    sql: ${TABLE}.brand ;;
+    sql: {% if _user_attributes['test'] == 'test' %} ${TABLE}.brand {% else %} null {% endif %} ;;
   }
 
   dimension: category {

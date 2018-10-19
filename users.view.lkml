@@ -34,8 +34,12 @@ view: users {
         label: "Ten"
       }
       when: {
-        sql: ${age}<20 ;;
+        sql: ${age}<20 AND ${age}>10 ;;
         label: "Twenty"
+      }
+      when: {
+        sql: ${age}=${age} ;;
+        label: "All"
       }
       else: "Someotherstuff"
     }
@@ -132,8 +136,11 @@ view: users {
 
   dimension: full_name {
     type: string
-    sql: CONCAT(${first_name},' ',${last_name}) DESC ;;
-  }
+    sql: CONCAT(${first_name},',',${last_name}) ;;
+    link:{
+      label: "test"
+      url: "https://localhost:9999/dashboards/1?customer={{users.full_name._value | replace: ',','^,'}}"
+    }  }
   dimension: full_name_test {
     type:  string
     sql: CASE

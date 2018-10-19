@@ -12,6 +12,15 @@ view: orders {
     sql: current_date - ${created_date} ;;
   }
 
+
+  parameter:  bucket_size {
+    default_value: "10"
+    type: unquoted
+#hidden: yes
+    label: "Filter - Tier Attainment % Band Size"
+  }
+
+
   dimension: orders_bucket {
     case: {
       when: {
@@ -24,6 +33,71 @@ view: orders {
       }
 
       else: "Nothing"
+    }
+  }
+
+  parameter: Month_Selector {
+    allowed_value: {
+      label: "January"
+      value: "01"
+    }
+    allowed_value: {
+      label: "February"
+      value: "02"
+    }
+    allowed_value: {
+      label: "March"
+      value: "03"
+    }
+    allowed_value: {
+      label: "April"
+      value: "04"
+    }
+    allowed_value: {
+      label: "May"
+      value: "05"
+    }
+    allowed_value: {
+      label: "June"
+      value: "06"
+    }
+    allowed_value: {
+      label: "July"
+      value: "07"
+    }
+    allowed_value: {
+      label: "August"
+      value: "08"
+    }
+    allowed_value: {
+      label: "September"
+      value: "09"
+    }
+    allowed_value: {
+      label: "October"
+      value: "10"
+    }
+    allowed_value: {
+      label: "November"
+      value: "11"
+    }
+    allowed_value: {
+      label: "December"
+      value: "12"
+    }
+  }
+
+  dimension: yesno_same_month {
+    type: yesno
+    sql: MONTH(${orders.created_raw})= {% parameter Month_Selector %} ;;
+    hidden: yes
+  }
+
+  measure: filtered_count {
+    type: count
+    filters: {
+      field: yesno_same_month
+      value: "Yes"
     }
   }
 
@@ -40,10 +114,17 @@ view: orders {
       month,
       month_name,
       quarter,
+      fiscal_quarter_of_year,
       year
     ]
     sql: ${TABLE}.created_at ;;
     drill_fields: [user_id]
+  }
+
+  measure: first_order {
+    type: date
+    sql: min(${created_raw}) ;;
+    convert_tz: no
   }
   parameter: testing_stuff {
     allowed_value: {
@@ -85,6 +166,7 @@ view: orders {
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
     link: {label: "Explore Top 20 Results by Sale Price" url: "{{ link }}&sorts=order_items.sale_price+desc&limit=20" }
     #html: {{percentage_of_total_orders._rendered_value}} ;;
+
   }
   measure: percentage_of_total_orders{
     type: percent_of_total
@@ -125,9 +207,15 @@ view: orders {
           ELSE NULL
           END
           ;;
-
+  }
+  parameter: max_rank {
+    type: number
   }
 
+  dimension: rank_limit {
+    type: number
+    sql: {% parameter max_rank %} ;;
+  }
 
 
 }

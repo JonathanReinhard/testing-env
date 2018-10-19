@@ -19,6 +19,19 @@ datagroup: mystuff_orders_datagroup {
   max_cache_age: "4 hours"
 }
 
+explore: testjoinstuff {
+  join: contacts {
+    from: users
+    sql_on: ${contacts.id}=${testjoinstuff.user_id} AND ${contacts.city}="New York" ;;
+    relationship: many_to_one
+  }
+  join: leads {
+    from: users
+    sql_on: ${leads.id}=${testjoinstuff.user_id} AND ${leads.city}="Chicago" ;;
+    relationship: many_to_one
+
+  }
+}
 
 explore: top10 {}
 
@@ -84,6 +97,7 @@ explore: orders {
   persist_with: mystuff_orders_datagroup
   fields: [ALL_FIELDS*, -order_items.count_last_28d]
 
+
   join: users {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;
@@ -103,6 +117,11 @@ explore: orders {
     type: left_outer
     sql_on: ${sql_runner_query.user_id}=${orders.user_id} ;;
     relationship: one_to_one
+  }
+  join: days_of_future_past {
+    type: left_outer
+    sql_on: ${orders.created_date}=${days_of_future_past.date} ;;
+    relationship: many_to_many
   }
 }
 
