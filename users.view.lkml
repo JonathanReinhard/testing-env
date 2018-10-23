@@ -101,6 +101,7 @@ view: users {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension: email {
@@ -169,6 +170,12 @@ view: users {
     type: count
     drill_fields: [state,count]
   }
+
+  measure: count2 {
+    type: count
+    drill_fields: [state,count]
+     }
+
   measure: average_age {
     type: average
     sql: ${age} ;;

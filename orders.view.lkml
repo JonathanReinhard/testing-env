@@ -12,6 +12,11 @@ view: orders {
     sql: current_date - ${created_date} ;;
   }
 
+  dimension: yesno {
+    type: yesno
+    sql: ${status}="complete" ;;
+  }
+
 
   parameter:  bucket_size {
     default_value: "10"
@@ -119,6 +124,12 @@ view: orders {
     ]
     sql: ${TABLE}.created_at ;;
     drill_fields: [user_id]
+    hidden: no
+  }
+
+  dimension: date_month2 {
+    type: date_month
+    sql: ${created_raw} ;;
   }
 
   measure: first_order {
@@ -166,8 +177,8 @@ view: orders {
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
     link: {label: "Explore Top 20 Results by Sale Price" url: "{{ link }}&sorts=order_items.sale_price+desc&limit=20" }
     #html: {{percentage_of_total_orders._rendered_value}} ;;
-
   }
+
   measure: percentage_of_total_orders{
     type: percent_of_total
     sql: ${count} ;;
@@ -215,6 +226,11 @@ view: orders {
   dimension: rank_limit {
     type: number
     sql: {% parameter max_rank %} ;;
+  }
+
+  dimension: complete {
+    type: number
+    sql: Count(${status}!="complete") ;;
   }
 
 
